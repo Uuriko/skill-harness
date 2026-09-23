@@ -1,0 +1,1 @@
+{"bin":{"skill-harness":"bin/harness.mjs"},"description":"Independent verified-working tester + badges for Agent Skills (SKILL.md)","engines":{"node":">=20"},"license":"Apache-2.0","name":"skill-harness","scripts":{"test":"node --test tests/"},"type":"module","version":"0.1.0"}
