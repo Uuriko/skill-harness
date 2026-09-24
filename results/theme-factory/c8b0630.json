@@ -1,7 +1,7 @@
 {
   "skill": "theme-factory",
-  "version": "local",
-  "checked_at": "2026-09-23T18:40:21.034Z",
+  "version": "c8b0630",
+  "checked_at": "2026-09-24T16:26:34.349Z",
   "harness": "skill-harness",
   "verdict": "pass",
   "static": {

@@ -1,7 +1,7 @@
 {
   "skill": "join-project-room",
   "version": "3ec4424",
-  "checked_at": "2026-09-23T18:43:05.422Z",
+  "checked_at": "2026-09-24T16:26:21.993Z",
   "harness": "skill-harness",
   "verdict": "pass",
   "static": {
@@ -94,7 +94,7 @@
         "name": "url-liveness: https://room.trydemigod.com",
         "ok": true,
         "warn_only": true,
-        "detail": "GET 200"
+        "detail": "HEAD 200"
       },
       {
         "name": "url-liveness: https://github.com/Uuriko/project-room/issues/266",

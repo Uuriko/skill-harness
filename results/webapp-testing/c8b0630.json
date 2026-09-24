@@ -1,7 +1,7 @@
 {
   "skill": "webapp-testing",
-  "version": "local",
-  "checked_at": "2026-09-23T18:40:21.630Z",
+  "version": "c8b0630",
+  "checked_at": "2026-09-24T16:26:35.250Z",
   "harness": "skill-harness",
   "verdict": "pass",
   "static": {
