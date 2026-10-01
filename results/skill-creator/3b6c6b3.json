@@ -1,0 +1,149 @@
+{
+  "skill": "skill-creator",
+  "version": "3b6c6b3",
+  "checked_at": "2026-10-01T16:24:42.206Z",
+  "harness": "skill-harness",
+  "verdict": "pass",
+  "static": {
+    "fails": 0,
+    "warns": 0,
+    "checks": [
+      {
+        "id": "skill-md-exists",
+        "status": "pass",
+        "detail": "SKILL.md present."
+      },
+      {
+        "id": "frontmatter-parse",
+        "status": "pass",
+        "detail": "Frontmatter parses."
+      },
+      {
+        "id": "name-present",
+        "status": "pass",
+        "detail": "name: skill-creator"
+      },
+      {
+        "id": "name-format",
+        "status": "pass",
+        "detail": "1–64 chars, lowercase alnum + hyphens, no leading/trailing/double hyphens."
+      },
+      {
+        "id": "name-matches-dir",
+        "status": "pass",
+        "detail": "Matches directory name \"skill-creator\"."
+      },
+      {
+        "id": "description-present",
+        "status": "pass",
+        "detail": "319 chars."
+      },
+      {
+        "id": "description-length",
+        "status": "pass",
+        "detail": "Within the 1–1024 char spec range."
+      },
+      {
+        "id": "description-quality",
+        "status": "pass",
+        "detail": "Describes what the skill does and when to use it."
+      },
+      {
+        "id": "body-nonempty",
+        "status": "pass",
+        "detail": "480 lines of instructions."
+      },
+      {
+        "id": "body-length",
+        "status": "pass",
+        "detail": "482 lines (spec recommends < 500)."
+      },
+      {
+        "id": "body-structure",
+        "status": "pass",
+        "detail": "Has headings and/or numbered steps."
+      },
+      {
+        "id": "file-references-resolve",
+        "status": "pass",
+        "detail": "2 referenced file(s), all resolve."
+      },
+      {
+        "id": "security-scan",
+        "status": "pass",
+        "detail": "No instruction-smuggling or exfiltration patterns matched."
+      }
+    ]
+  },
+  "smoke": {
+    "passed": true,
+    "steps": [
+      {
+        "name": "script-syntax: __init__.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: aggregate_benchmark.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: generate_report.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: improve_description.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: package_skill.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: quick_validate.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: run_eval.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: run_loop.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "script-syntax: utils.py",
+        "ok": true,
+        "warn_only": false,
+        "detail": "parses"
+      },
+      {
+        "name": "url-liveness",
+        "ok": true,
+        "warn_only": false,
+        "detail": "no concrete URLs referenced"
+      },
+      {
+        "name": "walkthrough",
+        "ok": true,
+        "warn_only": false,
+        "detail": "no harness walkthrough script for this skill"
+      }
+    ]
+  }
+}
