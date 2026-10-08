@@ -182,9 +182,11 @@ coordinator's partition.
    short-circuiting — the full picture is needed for the report.
 5. **Align steps by name**: each recorded non-mocked step is paired with the
    fresh step of the same `name` (within the same phase). A fresh run that is
-   missing a recorded step name, or that introduces a brand-new step name, is
-   reported as a **warning** (scope change), not a regression — the gate judges
-   only the steps both runs share.
+   missing a recorded step name is a **regression** (blocking) — silent loss of
+   coverage is exactly what the gate exists to catch; re-record the trace to
+   bless a legitimate rename. A brand-new step name is reported as a
+   **warning** (scope change), not a regression — the gate judges the steps
+   the trace covered.
 
 ## 7. Promotion-gate semantics (`verify --replay <trace>`)
 
@@ -200,13 +202,14 @@ For every aligned (name-matched), non-mocked step pair (recorded, fresh):
 
 Rules:
 
-- **Regression = a recorded-pass step that now fails.** That is the only
-  blocking condition. It answers Hone's question: "did the change break
-  something that worked?"
+- **Regression = a recorded-pass step that now fails, or that no longer runs at all.**
+  That is the only blocking condition. It answers Hone's question: "did the change break
+  something that worked?" A vanished step is silent coverage loss — re-record the trace
+  to bless a legitimate rename.
 - **Output-only divergences are warnings.** Same status, different detail
   (a reworded detail string, a new liveness URL) is noted, not blocking.
 - **Mocked steps never block.** URL-liveness is warn-only by design (§2).
-- Missing/extra step names are warnings, not regressions (§6.5).
+- Extra step names (fresh steps with no recorded counterpart) are warnings, not regressions (§6.5).
 - A replay whose trace header `harness` differs from the current commit emits a
   warning ("trace recorded under a different harness build") but still gates —
   rejecting it outright would punish every harness upgrade.
