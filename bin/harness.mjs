@@ -14,6 +14,9 @@ import { existsSync } from "node:fs";
 import { runStaticChecks, summarize } from "../lib/static-checks.mjs";
 import { runSmoke } from "../lib/smoke.mjs";
 import { writeResult, rebuildIndex, writeBadge, skillVersion, badgeMarkdown } from "../lib/results.mjs";
+import { recordVerifyTrace } from "../lib/trace.mjs";
+import { replayTrace } from "../lib/replay.mjs";
+import { execFileSync } from "node:child_process";
 
 const HARNESS_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -23,11 +26,23 @@ function usage() {
 usage:
   harness.mjs check <skill-dir>   static checks only
   harness.mjs smoke <skill-dir>   smoke tests only
-  harness.mjs verify <skill-dir>  full run + results + badge
+  harness.mjs verify <skill-dir> [--record [out]] [--replay <trace>]
+                                  full run + results + badge;
+                                  --record writes a replay trace of this run;
+                                  --replay <trace> gates promotion: any step that
+                                  passed in the trace but fails now blocks the badge
+  harness.mjs replay <trace> --skill <dir>
+                                  re-execute a recorded trace, report divergence
   harness.mjs badge <skill-name>  regenerate badge from latest result
   harness.mjs index               rebuild results/index.json
   harness.mjs list                list latest results`);
   process.exit(2);
+}
+
+function harnessCommit() {
+  try {
+    return execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: HARNESS_ROOT, encoding: "utf8" }).trim();
+  } catch { return "unknown"; }
 }
 
 function fmtChecks(checks) {
@@ -36,8 +51,42 @@ function fmtChecks(checks) {
 }
 
 async function main() {
-  const [cmd, arg] = process.argv.slice(2);
+  // Minimal flag parsing (backward compatible: no flags = old behavior).
+  const rawArgs = process.argv.slice(2);
+  const flags = {};
+  const positionals = [];
+  for (let i = 0; i < rawArgs.length; i++) {
+    const a = rawArgs[i];
+    if (a === "--record") {
+      flags.record = (rawArgs[i + 1] && !rawArgs[i + 1].startsWith("--")) ? rawArgs[++i] : true;
+    } else if (a === "--replay" && rawArgs[i + 1]) {
+      flags.replay = rawArgs[++i];
+    } else if (a === "--skill" && rawArgs[i + 1]) {
+      flags.skill = rawArgs[++i];
+    } else {
+      positionals.push(a);
+    }
+  }
+  const [cmd, arg] = positionals;
   if (!cmd) usage();
+
+  if (cmd === "replay") {
+    if (!arg || !flags.skill) {
+      console.error("usage: harness.mjs replay <trace> --skill <dir>");
+      process.exit(2);
+    }
+    const skillDir = resolve(flags.skill);
+    const rep = await replayTrace(resolve(arg), { skillDir, harnessRoot: HARNESS_ROOT });
+    console.log(`replay: ${rep.recorded.skill}@${rep.recorded.version} — ${rep.steps} steps compared, ${rep.mocked} mocked`);
+    if (rep.divergences.length === 0) {
+      console.log("replay: CLEAN — no divergences");
+    } else {
+      for (const d of rep.divergences) {
+        console.log(`  [${d.kind}] ${d.name}: expected ${JSON.stringify(d.expected)}, got ${JSON.stringify(d.actual)}`);
+      }
+    }
+    process.exit(rep.clean ? 0 : 1);
+  }
 
   if (cmd === "index") {
     const idx = rebuildIndex(HARNESS_ROOT);
@@ -73,6 +122,13 @@ async function main() {
   const skillName = basename(skillDir);
   const version = skillVersion(skillDir);
 
+  // Recording seed: fixed before smoke runs so walkthroughs inherit it via env.
+  let recordSeed = null;
+  if (cmd === "verify" && flags.record) {
+    recordSeed = process.env.HARNESS_SEED ? parseInt(process.env.HARNESS_SEED, 10) : Math.floor(Math.random() * 2 ** 31);
+    process.env.HARNESS_SEED = String(recordSeed);
+  }
+
   if (cmd === "check" || cmd === "verify") {
     console.log(`== static checks: ${skillName}@${version} ==`);
     const checks = runStaticChecks(skillDir);
@@ -95,6 +151,36 @@ async function main() {
   }
 
   if (cmd === "verify") {
+    // Promotion gate: replay the reference trace against the CURRENT skill dir.
+    // Any step that passed in the trace but fails now = regression → no promotion.
+    if (flags.replay) {
+      const rep = await replayTrace(resolve(flags.replay), { skillDir, harnessRoot: HARNESS_ROOT });
+      const regressions = rep.divergences.filter(d => d.kind === "status" || d.kind === "missing");
+      if (regressions.length > 0) {
+        console.error(`\nreplay gate FAILED vs ${flags.replay}: ${regressions.length} regression(s)`);
+        for (const d of regressions) {
+          console.error(`  [${d.kind}] ${d.name}: recorded ${JSON.stringify(d.expected)}, now ${JSON.stringify(d.actual)}`);
+        }
+        console.error("badge not regenerated; change not promoted.");
+        process.exit(1);
+      }
+      console.log(`\nreplay gate: CLEAN (${rep.steps} steps, ${rep.mocked} mocked) vs ${flags.replay}`);
+    }
+
+    if (flags.record) {
+      const tracePath = recordVerifyTrace({
+        harnessRoot: HARNESS_ROOT,
+        skill: skillName,
+        version,
+        seed: recordSeed,
+        harnessCommit: harnessCommit(),
+        checks: staticChecks,
+        smoke: smokeResult,
+        outPath: flags.record === true ? undefined : resolve(flags.record),
+      });
+      console.log(`trace recorded: ${tracePath}`);
+    }
+
     const result = writeResult(HARNESS_ROOT, { skill: skillName, version, staticChecks, smoke: smokeResult });
     rebuildIndex(HARNESS_ROOT);
     writeBadge(HARNESS_ROOT, skillName, {
