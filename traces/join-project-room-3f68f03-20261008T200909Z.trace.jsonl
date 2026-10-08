@@ -1,0 +1,34 @@
+{"v":1,"type":"header","skill":"join-project-room","version":"3f68f03","seed":1,"harness":"b49235c","startedAt":"2026-10-08T20:09:09.249Z"}
+{"v":1,"type":"step","seq":1,"phase":"check","name":"skill-md-exists","status":"pass","detail":"SKILL.md present.","mocked":false}
+{"v":1,"type":"step","seq":2,"phase":"check","name":"frontmatter-parse","status":"pass","detail":"Frontmatter parses.","mocked":false}
+{"v":1,"type":"step","seq":3,"phase":"check","name":"name-present","status":"pass","detail":"name: join-project-room","mocked":false}
+{"v":1,"type":"step","seq":4,"phase":"check","name":"name-format","status":"pass","detail":"1–64 chars, lowercase alnum + hyphens, no leading/trailing/double hyphens.","mocked":false}
+{"v":1,"type":"step","seq":5,"phase":"check","name":"name-matches-dir","status":"pass","detail":"Matches directory name \"join-project-room\".","mocked":false}
+{"v":1,"type":"step","seq":6,"phase":"check","name":"description-present","status":"pass","detail":"394 chars.","mocked":false}
+{"v":1,"type":"step","seq":7,"phase":"check","name":"description-length","status":"pass","detail":"Within the 1–1024 char spec range.","mocked":false}
+{"v":1,"type":"step","seq":8,"phase":"check","name":"description-quality","status":"pass","detail":"Describes what the skill does and when to use it.","mocked":false}
+{"v":1,"type":"step","seq":9,"phase":"check","name":"body-nonempty","status":"pass","detail":"169 lines of instructions.","mocked":false}
+{"v":1,"type":"step","seq":10,"phase":"check","name":"body-length","status":"pass","detail":"171 lines (spec recommends < 500).","mocked":false}
+{"v":1,"type":"step","seq":11,"phase":"check","name":"body-structure","status":"pass","detail":"Has headings and/or numbered steps.","mocked":false}
+{"v":1,"type":"step","seq":12,"phase":"check","name":"file-references-resolve","status":"pass","detail":"0 referenced file(s), all resolve.","mocked":false}
+{"v":1,"type":"step","seq":13,"phase":"check","name":"security-scan","status":"pass","detail":"No instruction-smuggling or exfiltration patterns matched.","mocked":false}
+{"v":1,"type":"step","seq":14,"phase":"smoke","name":"script-syntax: sign-card.mjs","status":"pass","detail":"parses","mocked":false}
+{"v":1,"type":"step","seq":15,"phase":"smoke","name":"url-liveness: https://github.com/Uuriko/project-room","status":"pass","detail":"HEAD 200","mocked":true}
+{"v":1,"type":"step","seq":16,"phase":"smoke","name":"url-liveness: https://room.trydemigod.com","status":"pass","detail":"HEAD 200","mocked":true}
+{"v":1,"type":"step","seq":17,"phase":"smoke","name":"url-liveness: https://github.com/Uuriko/project-room/issues/266","status":"pass","detail":"HEAD 200","mocked":true}
+{"v":1,"type":"step","seq":18,"phase":"smoke","name":"walkthrough: 1a","status":"pass","detail":"agent-card.json served","mocked":false}
+{"v":1,"type":"step","seq":19,"phase":"smoke","name":"walkthrough: 1b","status":"pass","detail":"llms.txt served","mocked":false}
+{"v":1,"type":"step","seq":20,"phase":"smoke","name":"walkthrough: 1c","status":"pass","detail":"public guest-invite contract","mocked":false}
+{"v":1,"type":"step","seq":21,"phase":"smoke","name":"walkthrough: 2","status":"pass","detail":"identity-create returns ai_ id + pri_ secret","mocked":false}
+{"v":1,"type":"step","seq":22,"phase":"smoke","name":"walkthrough: 3/4","status":"pass","detail":"skill sign-card.mjs produces a server-verifiable signature","mocked":false}
+{"v":1,"type":"step","seq":23,"phase":"smoke","name":"walkthrough: owner mint issues GX- code","status":"pass","detail":"","mocked":false}
+{"v":1,"type":"step","seq":24,"phase":"smoke","name":"walkthrough: 5","status":"pass","detail":"redeem with signed card, bearer pri_, no Origin → 201","mocked":false}
+{"v":1,"type":"step","seq":25,"phase":"smoke","name":"walkthrough: 5b","status":"pass","detail":"double redeem is idempotent (duplicate:true, 200)","mocked":false}
+{"v":1,"type":"step","seq":26,"phase":"smoke","name":"walkthrough: 5c","status":"pass","detail":"bad code → 410 invite_unavailable","mocked":false}
+{"v":1,"type":"step","seq":27,"phase":"smoke","name":"walkthrough: 5d","status":"pass","detail":"tampered card → 422 card_invalid","mocked":false}
+{"v":1,"type":"step","seq":28,"phase":"smoke","name":"walkthrough: 6a","status":"pass","detail":"guest reads events/bounties/work-claims → 200","mocked":false}
+{"v":1,"type":"step","seq":29,"phase":"smoke","name":"walkthrough: 6b","status":"pass","detail":"guest posts chat via commands → 201","mocked":false}
+{"v":1,"type":"step","seq":30,"phase":"smoke","name":"walkthrough: 6c","status":"pass","detail":"guest reacts → 201","mocked":false}
+{"v":1,"type":"step","seq":31,"phase":"smoke","name":"walkthrough: 6d","status":"pass","detail":"guest rotate → fresh token","mocked":false}
+{"v":1,"type":"step","seq":32,"phase":"smoke","name":"walkthrough: 6e","status":"pass","detail":"guest collab mutation is 403 (boundary holds)","mocked":false}
+{"v":1,"type":"footer","status":"pass","steps":32,"endedAt":"2026-10-08T20:09:09.254Z"}

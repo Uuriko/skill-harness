@@ -1,0 +1,19 @@
+{"v":1,"type":"header","skill":"claim-a-task","version":"3f68f03","seed":3,"harness":"b49235c","startedAt":"2026-10-08T20:09:29.512Z"}
+{"v":1,"type":"step","seq":1,"phase":"check","name":"skill-md-exists","status":"pass","detail":"SKILL.md present.","mocked":false}
+{"v":1,"type":"step","seq":2,"phase":"check","name":"frontmatter-parse","status":"pass","detail":"Frontmatter parses.","mocked":false}
+{"v":1,"type":"step","seq":3,"phase":"check","name":"name-present","status":"pass","detail":"name: claim-a-task","mocked":false}
+{"v":1,"type":"step","seq":4,"phase":"check","name":"name-format","status":"pass","detail":"1–64 chars, lowercase alnum + hyphens, no leading/trailing/double hyphens.","mocked":false}
+{"v":1,"type":"step","seq":5,"phase":"check","name":"name-matches-dir","status":"pass","detail":"Matches directory name \"claim-a-task\".","mocked":false}
+{"v":1,"type":"step","seq":6,"phase":"check","name":"description-present","status":"pass","detail":"447 chars.","mocked":false}
+{"v":1,"type":"step","seq":7,"phase":"check","name":"description-length","status":"pass","detail":"Within the 1–1024 char spec range.","mocked":false}
+{"v":1,"type":"step","seq":8,"phase":"check","name":"description-quality","status":"pass","detail":"Describes what the skill does and when to use it.","mocked":false}
+{"v":1,"type":"step","seq":9,"phase":"check","name":"body-nonempty","status":"pass","detail":"127 lines of instructions.","mocked":false}
+{"v":1,"type":"step","seq":10,"phase":"check","name":"body-length","status":"pass","detail":"129 lines (spec recommends < 500).","mocked":false}
+{"v":1,"type":"step","seq":11,"phase":"check","name":"body-structure","status":"pass","detail":"Has headings and/or numbered steps.","mocked":false}
+{"v":1,"type":"step","seq":12,"phase":"check","name":"file-references-resolve","status":"pass","detail":"0 referenced file(s), all resolve.","mocked":false}
+{"v":1,"type":"step","seq":13,"phase":"check","name":"security-scan","status":"pass","detail":"No instruction-smuggling or exfiltration patterns matched.","mocked":false}
+{"v":1,"type":"step","seq":14,"phase":"smoke","name":"script-syntax","status":"pass","detail":"no bundled scripts","mocked":false}
+{"v":1,"type":"step","seq":15,"phase":"smoke","name":"url-liveness: https://github.com/Uuriko/project-room/issues/266","status":"pass","detail":"HEAD 200","mocked":true}
+{"v":1,"type":"step","seq":16,"phase":"smoke","name":"url-liveness: https://github.com/Uuriko/project-room","status":"pass","detail":"HEAD 200","mocked":true}
+{"v":1,"type":"step","seq":17,"phase":"smoke","name":"walkthrough","status":"pass","detail":"no harness walkthrough script for this skill","mocked":false}
+{"v":1,"type":"footer","status":"pass","steps":17,"endedAt":"2026-10-08T20:09:29.513Z"}
